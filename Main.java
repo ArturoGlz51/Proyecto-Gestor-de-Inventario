@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,33 +7,41 @@ public class Main {
     static List<Producto> productos = new ArrayList<Producto>();
     public static void main(String[] args) {
         int opcion;
+        String seguir = "";
         cargarProductos();
-        System.out.println("Bienvenido a tu Sistema de Gestor de Inventario");
-        System.out.println(" ");
-        System.out.println("Elija una opcion a realizar: ");
-        System.out.println("1.- Agregar Producto");
-        System.out.println("2.- Eliminar Producto");
-        System.out.println("3.- Modificar Producto");
-        System.out.println("4.- Mostrar Producto");
-        System.out.println("5.- Generar Reporte en PDF");
-        System.out.println("6.- Salir");
-        opcion = sc.nextInt();
-        sc.nextLine();
+        do {
+            System.out.println("Bienvenido a tu Sistema de Gestor de Inventario");
+            System.out.println(" ");
+            System.out.println("Elija una opcion a realizar: ");
+            System.out.println("1.- Agregar Producto");
+            System.out.println("2.- Eliminar Producto");
+            System.out.println("3.- Ingresar Producto");
+            System.out.println("4.- Mostrar Producto");
+            System.out.println("5.- Salir");
+            opcion = sc.nextInt();
+            sc.nextLine();
 
-        switch(opcion) {
-            case 1:
-                agregarProducto();
-                break;
-            case 2:
-                eliminarProducto();
-                break;
-            case 3:
-                break;
-            case 4:
-                mostrarProductos();
-                break;
-        }
-
+            switch(opcion) {
+                case 1:
+                    agregarProducto();
+                    break;
+                case 2:
+                    eliminarProducto();
+                    break;
+                case 3:
+                    ingresarInventario();
+                    break;
+                case 4:
+                    mostrarProductos();
+                    break;
+                case 5:
+                    System.out.println("Cerrando Sistema...");
+                    return;
+            }
+            System.out.println(" ");
+            System.out.println("Desea seguir trabajando? (S/N)");
+            seguir = sc.nextLine();
+        } while (seguir.equals("S"));
     }
 
     public static void agregarProducto() {
@@ -81,6 +88,29 @@ public class Main {
                 System.out.println("Producto borrado.");
                 return;
             }
+        }
+    }
+
+    public static void ingresarInventario(){
+        mostrarCodigos();
+        System.out.println("Ingrese el codigo del producto a ingresar: ");
+        String codigo = sc.nextLine();
+        for (Producto producto : productos) {
+            if (!producto.getCodigo().equals(codigo)) {
+                System.out.println("Código no encontrado.");
+                return;
+            }
+            System.out.println("Ingrese la cantidad a ingresar: ");
+            int cantidad = sc.nextInt();
+            sc.nextLine();
+            if (cantidad < 0){
+                System.out.println("Error, no puede haber una cantidad menor a 0.");
+                return;
+            }
+            int newCantidad = producto.getCantidad() + cantidad;
+            producto.setCantidad(newCantidad);
+            ProductManager.ingresarInventario(producto, newCantidad);
+            System.out.println("Inventario correctamente agregado.");
         }
     }
 

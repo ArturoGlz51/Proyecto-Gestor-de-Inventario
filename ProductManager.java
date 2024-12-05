@@ -55,4 +55,16 @@ public class ProductManager {
             e.printStackTrace();
         }
     }
+
+    public static void ingresarInventario(Producto producto, int cantidad) {
+        String query = "UPDATE producto SET cantidad = ? WHERE codigo = " + producto.getCodigo() + "";
+
+        try (Connection conexion = Conexion_DB.getConnection();
+             PreparedStatement stmt = conexion.prepareStatement(query)) {
+            stmt.setInt(1, producto.getCantidad());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
