@@ -1,6 +1,14 @@
 import java.sql.*;
 import java.util.*;
+
 public class ProductManager {
+
+    /**
+     * Cargar la lista de productos desde la base de datos, obteniendo el código, descripción y cantidad de cada producto.
+     * Los productos se almacenan en una lista y se devuelve esta lista una vez cargados los datos.
+     *
+     * @return lista de productos cargada desde la base de datos
+     */
     public static List<Producto> cargarProductos() {
         List<Producto> productos = new ArrayList<>();
         String query = "SELECT codigo,descripcion,cantidad FROM producto";
@@ -20,6 +28,13 @@ public class ProductManager {
         return productos;
     }
 
+    /**
+     * Crea un objeto Producto a partir de un ResultSet que contiene información de codigo, descripción y cantidad.
+     *
+     * @param rs el ResultSet que contiene los datos del producto
+     * @return el objeto Producto creado con los datos del ResultSet
+     * @throws SQLException si ocurre un error al acceder a los datos del ResultSet
+     */
     private static Producto crearProductoDesdeRs(ResultSet rs) throws SQLException {
         Producto producto = new Producto();
         producto.setCodigo(rs.getString("codigo"));
@@ -28,6 +43,11 @@ public class ProductManager {
         return producto;
     }
 
+    /**
+     * Elimina un producto de la base de datos según el código proporcionado.
+     *
+     * @param producto el Producto a ser eliminado de la base de datos
+     */
     public static void borrarProducto(Producto producto) {
         String query = "DELETE FROM producto WHERE codigo = '" + producto.getCodigo() + "'";
         try (Connection conexion = Conexion_DB.getConnection();
@@ -39,6 +59,11 @@ public class ProductManager {
         }
     }
 
+    /**
+     * Inserta un nuevo producto en la base de datos.
+     *
+     * @param producto el objeto Producto a ser insertado en la base de datos
+     */
     public static void agregarProducto(Producto producto) {
         String query = "INSERT INTO producto (codigo, descripcion, cantidad) VALUES (?,?,?)";
 
@@ -56,6 +81,12 @@ public class ProductManager {
         }
     }
 
+    /**
+     * Actualiza la cantidad de un producto en el inventario mediante la base de datos.
+     *
+     * @param producto el Producto cuya cantidad en el inventario se va a actualizar
+     * @param cantidad la nueva cantidad del producto en el inventario
+     */
     public static void ingresarInventario(Producto producto, int cantidad) {
         String query = "UPDATE producto SET cantidad = ? WHERE codigo = " + producto.getCodigo() + "";
 

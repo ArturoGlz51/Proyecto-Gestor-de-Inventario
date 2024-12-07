@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
     static Scanner sc = new Scanner(System.in);
     static List<Producto> productos = new ArrayList<Producto>();
+
     public static void main(String[] args) {
         int opcion;
         String seguir = "";
@@ -44,6 +45,15 @@ public class Main {
         } while (seguir.equals("S"));
     }
 
+
+    /**
+     * Solicita al usuario ingresar información de un nuevo producto, valida el código del producto,
+     * la longitud del código, y si el código ya existe en la lista de productos. Una vez validado el
+     * código, pide ingresar la descripción y cantidad del producto. Si la cantidad es menor a 0, muestra
+     * un mensaje de error. Finalmente, crea un nuevo Producto con la información ingresada y lo agrega
+     * a la lista de productos. Además, invoca el método en ProductManager para agregar el producto
+     * a la base de datos.
+     */
     public static void agregarProducto() {
         String codigo;
         boolean codigoRepetido;
@@ -77,6 +87,12 @@ public class Main {
         ProductManager.agregarProducto(tempProducto);
     }
 
+    /**
+     * Método que muestra los códigos de los productos disponibles, solicita al usuario ingresar un código de producto
+     * y procede a eliminar dicho producto de la lista. Si el código ingresado coincide con un producto existente,
+     * se elimina tanto de la lista de productos como de la base de datos. En caso de éxito, se muestra un mensaje
+     * indicando que el producto ha sido eliminado.
+     */
     public static void eliminarProducto() {
         mostrarCodigos();
         System.out.print("Ingrese el codigo del producto: ");
@@ -91,6 +107,13 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo que muestra los codigos de los productos disponibles y permite ingresar
+     * la cantidad de un producto en inventario. Se solicita al usuario ingresar el codigo
+     * del producto a ingresar, valida si el codigo existe en la lista de productos
+     * y en caso afirmativo, permite ingresar la cantidad a sumar al inventario.
+     * Si la cantidad ingresada es negativa, se muestra un mensaje de error.
+     */
     public static void ingresarInventario(){
         mostrarCodigos();
         System.out.println("Ingrese el codigo del producto a ingresar: ");
@@ -114,6 +137,10 @@ public class Main {
         }
     }
 
+    /**
+     * Muestra los códigos de los productos disponibles en la lista de productos.
+     * Recorre la lista de productos e imprime en consola cada código de producto.
+     */
     public static void mostrarCodigos(){
         System.out.println("Codigos: ");
         for (Producto producto : productos) {
@@ -121,6 +148,10 @@ public class Main {
         }
     }
 
+    /**
+     * Muestra en consola la lista de productos disponibles, recorriendo la lista e imprimiendo
+     * la representación en texto de cada producto.
+     */
     public static void mostrarProductos(){
         System.out.println("Productos: ");
         for (Producto producto : productos) {
@@ -128,6 +159,10 @@ public class Main {
         }
     }
 
+    /**
+     * Carga la lista de productos desde la base de datos, obteniendo el código, descripción
+     * y cantidad de cada producto. La información cargada se asigna a la lista de productos.
+     */
     public static void cargarProductos(){
         productos = ProductManager.cargarProductos();
     }
