@@ -85,6 +85,7 @@ public class Main {
         Producto tempProducto = new Producto(codigo, descripcion, cantidad);
         productos.add(tempProducto);
         ProductManager.agregarProducto(tempProducto);
+        System.out.println("Producto agregado.");
     }
 
     /**
